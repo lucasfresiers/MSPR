@@ -38,17 +38,17 @@ public class FileUploadTests {
 	@Test
 	public void shouldListAllFiles() throws Exception {
 		given(this.storageService.loadAll())
-				.willReturn(Stream.of(Paths.get("first.txt"), Paths.get("second.txt")));
+				.willReturn(Stream.of(Paths.get("first.csv"), Paths.get("second.csv")));
 
 		this.mvc.perform(get("/")).andExpect(status().isOk())
 				.andExpect(model().attribute("files",
-						Matchers.contains("http://localhost/files/first.txt",
-								"http://localhost/files/second.txt")));
+						Matchers.contains("http://localhost/files/first.csv",
+								"http://localhost/files/second.csv")));
 	}
 
 	@Test
 	public void shouldSaveUploadedFile() throws Exception {
-		MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
+		MockMultipartFile multipartFile = new MockMultipartFile("file", "test.csv",
 				"text/plain", "Spring Framework".getBytes());
 		this.mvc.perform(multipart("/").file(multipartFile))
 				.andExpect(status().isFound())
@@ -60,10 +60,10 @@ public class FileUploadTests {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void should404WhenMissingFile() throws Exception {
-		given(this.storageService.loadAsResource("test.txt"))
+		given(this.storageService.loadAsResource("test.csv"))
 				.willThrow(StorageFileNotFoundException.class);
 
-		this.mvc.perform(get("/files/test.txt")).andExpect(status().isNotFound());
+		this.mvc.perform(get("/files/test.csv")).andExpect(status().isNotFound());
 	}
 
 }

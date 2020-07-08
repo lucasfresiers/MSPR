@@ -16,6 +16,7 @@
 
 	<div>
 		<ul>
+			<h1>Liste de tous les fichiers :</h1>
 			<li th:each="file : ${files}">
 				<a th:href="${file}" th:text="${file}" />
 			</li>
